@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>day2-clock</title>
+  </head>
+  <body>
+    <!-- The clock container -->
+    <div class="clock">
+      <!-- The face of the clock -->
+      <div class="clock-face">
+        <!-- The hands of the clock -->
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+    <style>
+      /* Styling the entire HTML document */
+      html {
+        /* Adding a background color and image */
+        background: #018ded url(https://unsplash.it/1500/1000?image=881&blur=5);
+        background-size: cover; /* Makes the image cover the entire screen */
+        font-family: "helvetica neue"; /* Sets the font style */
+        text-align: center; /* Centers text in the document */
+        font-size: 10px; /* Base font size for easy scaling with rem units */
+      }
+      /* Styling the body of the page */
+      body {
+        margin: 0; /* Removes default margin */
+        font-size: 2rem; /* Makes text larger for readability */
+        display: flex; /* Enables Flexbox layout for centering */
+        flex: 1; /* Ensures it takes up the full height */
+        min-height: 100vh; /* Makes the body span the entire viewport height */
+        align-items: center; /* Vertically centers content */
+      }
+      /* Main clock styling */
+      .clock {
+        width: 30rem; /* Width of the clock */
+        height: 30rem; /* Height of the clock (makes it circular with border-radius) */
+        border: 20px solid white; /* Outer border of the clock */
+        border-radius: 50%; /* Makes the border a perfect circle */
+        margin: 50px auto; /* Adds spacing around the clock and centers it */
+        position: relative; /* Allows positioning of the clock hands inside */
+        padding: 2rem; /* Inner spacing between the border and the hands */
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
+          /* Outer shadow */ inset 0 0 0 3px #efefef,
+          /* Inner light shadow */ inset 0 0 10px black,
+          /* Inner dark shadow */ 0 0 10px rgba(0, 0, 0, 0.2); /* Outer glowing shadow */
+      }
+      /* The face of the clock */
+      .clock-face {
+        position: relative; /* Positions child elements relative to this face */
+        width: 100%; /* Takes the full width of the clock */
+        height: 100%; /* Takes the full height of the clock */
+        transform: translateY(
+          -3px
+        ); /* Adjusts alignment to compensate for the hands' height */
+      }
+      /* Styling for each clock hand */
+      .hand {
+        width: 50%; /* Half the width of the clock (extends halfway) */
+        height: 6px; /* Thickness of the clock hand */
+        background: black; /* Black color for the hands */
+        position: absolute; /* Positioned relative to the clock face */
+        top: 50%; /* Centers the hand vertically */
+        transform-origin: 100%; /* Rotates from the end of the hand */
+        transform: rotate(90deg); /* Starts hands pointing at 12 o'clock */
+        transition: all 0.05s; /* Smooth rotation */
+        transition-timing-function: cubic-bezier(
+          0.1,
+          2.7,
+          0.58,
+          1
+        ); /* Adds smooth easing to the movement */
+      }
+    </style>
+    <script>
+      // Selects the clock hands from the DOM (HTML elements)
+      const secondHand = document.querySelector(".second-hand");
+      const minsHand = document.querySelector(".min-hand");
+      const hourHand = document.querySelector(".hour-hand");
+
+      // Function to update the clock hands every second
+      function setDate() {
+        // Gets the current time
+        const now = new Date();
+
+        // Updates the second hand
+        const seconds = now.getSeconds(); // Retrieves the current second (0–59)
+        const secondsDegrees = (seconds / 60) * 360 + 90; // Converts seconds to degrees
+        secondHand.style.transform = `rotate(${secondsDegrees}deg)`; // Rotates the second hand
+
+        // Updates the minute hand
+        const mins = now.getMinutes(); // Retrieves the current minute (0–59)
+        const minsDegrees = (mins / 60) * 360 + (seconds / 60) * 6 + 90; // Converts minutes to degrees
+        minsHand.style.transform = `rotate(${minsDegrees}deg)`; // Rotates the minute hand
+
+        // Updates the hour hand
+        const hour = now.getHours(); // Retrieves the current hour (0–23)
+        const hourDegrees = (hour / 12) * 360 + (mins / 60) * 30 + 90; // Converts hours to degrees
+        hourHand.style.transform = `rotate(${hourDegrees}deg)`; // Rotates the hour hand
+      }
+
+      // Runs the setDate function every 1 second (1000 milliseconds)
+      setInterval(setDate, 1000);
+
+      // Initializes the clock immediately when the page loads
+      setDate();
+    </script>
+  </body>
+</html>

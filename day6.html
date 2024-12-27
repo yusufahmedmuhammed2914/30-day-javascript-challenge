@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Type Ahead Example</title>
+    <!-- Link to the CSS for styling -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Adding a fun icon to the browser tab -->
+    <link rel="icon" href="https://fav.farm/%E2%9C%85" />
+  </head>
+  <body>
+    <!-- Form for searching cities or states -->
+    <form class="search-form">
+      <!-- Input field where users can type their search query -->
+      <input type="text" class="search" placeholder="City or State" />
+      <!-- List to display the filtered results -->
+      <ul class="suggestions">
+        <li>search for your city</li>
+        <li>or state</li>
+      </ul>
+    </form>
+
+    <style>
+      /* General styling for the page */
+      html {
+        box-sizing: border-box;
+        background: #ffc600; /* Bright background for visibility */
+        font-family: "helvetica neue", sans-serif;
+        font-size: 20px;
+        font-weight: 200;
+      }
+
+      /* Apply box-sizing to all elements */
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      /* Input field styling */
+      input {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .search-form {
+        max-width: 400px; /* Limit form width */
+        margin: 50px auto; /* Center form */
+      }
+
+      input.search {
+        margin: 0;
+        text-align: center;
+        outline: 0;
+        border: 10px solid #f7f7f7; /* White border */
+        width: 120%;
+        left: -10%;
+        position: relative;
+        top: 10px;
+        z-index: 2;
+        border-radius: 5px;
+        font-size: 40px; /* Large font size */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.12),
+          inset 0 0 2px rgba(0, 0, 0, 0.19); /* Shadow effects */
+      }
+
+      .suggestions {
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      .suggestions li {
+        background: white;
+        list-style: none;
+        border-bottom: 1px solid #d8d8d8;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+        margin: 0;
+        padding: 20px;
+        transition: background 0.2s;
+        display: flex;
+        justify-content: space-between; /* Aligns name and population */
+        text-transform: capitalize; /* Capitalizes city and state names */
+      }
+
+      .suggestions li:nth-child(even) {
+        transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
+        background: linear-gradient(to bottom, #ffffff 0%, #efefef 100%);
+      }
+
+      .suggestions li:nth-child(odd) {
+        transform: perspective(100px) rotateX(-3deg) translateY(3px);
+        background: linear-gradient(to top, #ffffff 0%, #efefef 100%);
+      }
+
+      span.population {
+        font-size: 15px; /* Smaller font for population numbers */
+      }
+
+      .hl {
+        background: #ffc600; /* Highlight color for matched text */
+      }
+    </style>
+
+    <script>
+      // URL of the data source (list of cities and states)
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const cities = []; // Array to store the fetched city data
+
+      // Fetch data from the endpoint and populate the cities array
+      fetch(endpoint)
+        .then((blob) => blob.json()) // Convert response to JSON
+        .then((data) => cities.push(...data)); // Spread operator to add data into the array
+
+      // Function to find matches based on user input
+      function findMatches(wordToMatch, cities) {
+        return cities.filter((place) => {
+          // Create a regex to match the input against city or state names
+          const regex = new RegExp(wordToMatch, "gi"); // "g" for global, "i" for case-insensitive
+          return place.city.match(regex) || place.state.match(regex);
+        });
+      }
+
+      // Function to format numbers with commas (e.g., 1000 -> 1,000)
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      // Function to display the matching results in the suggestions list
+      function displayMatches() {
+        const matchArray = findMatches(this.value, cities); // Find matches for the current input value
+
+        // Create the HTML structure for the matched results
+        const html = matchArray
+          .map((place) => {
+            const regex = new RegExp(this.value, "gi");
+            const cityName = place.city.replace(
+              regex,
+              `<span class="hl">${this.value}</span>` // Highlight matched text
+            );
+            const stateName = place.state.replace(
+              regex,
+              `<span class="hl">${this.value}</span>`
+            );
+            return `
+              <li>
+                <span class="name">${cityName}, ${stateName}</span>
+                <span class="population">${numberWithCommas(
+                  place.population
+                )}</span>
+              </li>
+            `;
+          })
+          .join(""); // Join array elements into a single string
+
+        suggestions.innerHTML = html; // Update the suggestions list in the DOM
+      }
+
+      // Select the input field and suggestions list
+      const searchInput = document.querySelector(".search");
+      const suggestions = document.querySelector(".suggestions");
+
+      // Add event listeners to handle user input
+      searchInput.addEventListener("change", displayMatches);
+      searchInput.addEventListener("keyup", displayMatches); // For live updates as the user types
+    </script>
+  </body>
+</html>

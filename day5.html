@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flex Panels 💪</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Amatic+SC"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="icon" href="https://fav.farm/✅" />
+  </head>
+  <body>
+    <style>
+      /* Base styles for the entire page */
+      html {
+        box-sizing: border-box;
+        background: #ffc600; /* Bright yellow background */
+        font-family: "helvetica neue";
+        font-size: 20px;
+        font-weight: 200;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      /* Ensures consistent box-sizing for all elements */
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      /* Flex container to hold all panels */
+      .panels {
+        min-height: 100vh; /* Full viewport height */
+        overflow: hidden; /* Prevents overflow from expanding beyond viewport */
+        display: flex; /* Use flexbox to align panels */
+      }
+
+      /* Styling for each individual panel */
+      .panel {
+        background: #6b0f9c; /* Dark purple background */
+        box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1); /* Subtle shadow effect */
+        color: white; /* White text */
+        text-align: center;
+        align-items: center; /* Center the content vertically */
+        transition: font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
+          /* Smooth font-size transition */ flex 0.7s
+            cubic-bezier(0.61, -0.19, 0.7, -0.11),
+          /* Flex expansion animation */ background 0.2s; /* Smooth background transition */
+        font-size: 20px; /* Default font size */
+        background-size: cover; /* Ensure the background image covers the entire panel */
+        background-position: center; /* Center the background image */
+        flex: 1; /* Each panel takes up equal space */
+        justify-content: center;
+        display: flex; /* Flexbox to align text vertically and horizontally */
+        flex-direction: column; /* Stack text elements vertically */
+      }
+
+      /* Panel specific background images */
+      .panel1 {
+        background-image: url(https://lh3.googleusercontent.com/Jrg-sFv1A_jyorlk3lJC9SOMTmwscOmcmoMerYLVfeI5RspeFJZhyY6HcQybX4N_TUCmt1Onfdfz8tG0WKeV8LgvtJpN7gLYdNUbXo-oPHq813A=s1500);
+      }
+      .panel2 {
+        background-image: url(https://cdn.outsideonline.com/wp-content/uploads/2017/05/31/c680-at-sion-city_s.jpg);
+      }
+      .panel3 {
+        background-image: url(https://cdn.outsideonline.com/wp-content/uploads/2024/05/roadsnp-guada-garynored_s.jpg);
+      }
+      .panel4 {
+        background-image: url(https://lh3.googleusercontent.com/4VgvFmjWFDq4piiR9JfBtZuLJM-5_-fECDTAfSSeQzZ_UX-AW7YL9IGfShBh0Ls2L26fkbpIQ3YPYnoGyFghWvSGOUhQkKtXndJAlMo6LvQLMg=s1500-pp);
+      }
+      .panel5 {
+        background-image: url(https://landenkerr.com/wp-content/uploads/2020/10/walk-through-jardin-du-luxembourg-fall-featured-1500x1500.jpeg);
+      }
+
+      /* Styling for text inside each panel */
+      .panel > * {
+        margin: 0;
+        width: 100%; /* Ensures text fills the panel */
+        transition: transform 0.5s; /* Smooth sliding effect */
+        flex: 1 0 auto; /* Makes text flexible and centers it */
+        display: flex; /* Flexbox to align text */
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Slide text in from top and bottom */
+      .panel > *:first-child {
+        transform: translateY(-100%); /* Initially hides the first text above */
+      }
+      .panel.open-active > *:first-child {
+        transform: translateY(0); /* Slides in the first text */
+      }
+
+      .panel > *:last-child {
+        transform: translateY(100%); /* Initially hides the last text below */
+      }
+      .panel.open-active > *:last-child {
+        transform: translateY(0); /* Slides in the last text */
+      }
+
+      /* Styling for the text */
+      .panel p {
+        text-transform: uppercase;
+        font-family: "Amatic SC", cursive; /* Custom font for a fun feel */
+        text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45); /* Text shadow for better visibility */
+        font-size: 2em; /* Larger text for emphasis */
+      }
+
+      /* Larger text for the second line */
+      .panel p:nth-child(2) {
+        font-size: 4em;
+      }
+
+      /* Expanded panel state */
+      .panel.open {
+        flex: 5; /* Expands the panel */
+        font-size: 40px; /* Enlarges text */
+      }
+
+      /* Mobile responsiveness */
+      @media only screen and (max-width: 600px) {
+        .panel p {
+          font-size: 1em; /* Adjust text size on smaller screens */
+        }
+      }
+    </style>
+
+    <!-- Panels container -->
+    <div class="panels">
+      <div class="panel panel1">
+        <p>buy</p>
+        <p>your digital</p>
+        <p>assets</p>
+      </div>
+      <div class="panel panel2">
+        <p>fly</p>
+        <p>where ever</p>
+        <p>you want</p>
+      </div>
+      <div class="panel panel3">
+        <p>Explore</p>
+        <p>the</p>
+        <p>nature</p>
+      </div>
+      <div class="panel panel4">
+        <p>drive</p>
+        <p>your</p>
+        <p>dream car</p>
+      </div>
+      <div class="panel panel5">
+        <p>build</p>
+        <p>your</p>
+        <p>own</p>
+      </div>
+    </div>
+
+    <script>
+      /* Select all the panels */
+      const panels = document.querySelectorAll(".panel");
+
+      /* Toggle 'open' class when a panel is clicked */
+      function toggleOpen() {
+        console.log("Hello");
+        this.classList.toggle("open"); // Expands or collapses the panel
+      }
+
+      /* Check if the 'flex' property has transitioned */
+      function toggleActive(e) {
+        console.log(e.propertyName);
+        if (e.propertyName.includes("flex")) {
+          this.classList.toggle("open-active"); // Activates text sliding animation
+        }
+      }
+
+      /* Add event listeners to each panel */
+      panels.forEach((panel) => panel.addEventListener("click", toggleOpen));
+      panels.forEach(
+        (panel) => panel.addEventListener("transitionend", toggleActive) // Detect transition end
+      );
+    </script>
+  </body>
+</html>

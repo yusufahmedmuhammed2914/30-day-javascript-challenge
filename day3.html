@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scoped CSS Variables and JS</title>
+    <link rel="icon" href="https://fav.farm/✅" />
+  </head>
+  <body>
+    <h2>Update CSS Variables with <span class="hl">JS</span></h2>
+
+    <div class="controls">
+      <!-- Range input to control the spacing around the image -->
+      <label for="spacing">Spacing:</label>
+      <input
+        id="spacing"
+        type="range"
+        name="spacing"
+        min="10"
+        max="200"
+        value="10"
+        data-sizing="px"
+      />
+
+      <!-- Range input to control the blur effect on the image -->
+      <label for="blur">Blur:</label>
+      <input
+        id="blur"
+        type="range"
+        name="blur"
+        min="0"
+        max="25"
+        value="10"
+        data-sizing="px"
+      />
+
+      <!-- Color input to change the base color of the background -->
+      <label for="base">Base Color</label>
+      <input id="base" type="color" name="base" value="#ffc600" />
+    </div>
+
+    <div class="image">
+      <!-- Image whose styles will dynamically change based on user input -->
+      <img
+        src="data:image/jpeg;base64,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"
+      />
+    </div>
+    <style>
+      /* Define CSS variables (custom properties) in the root scope for easy access */
+      :root {
+        --base: #ffc600; /* Default background color */
+        --spacing: 10px; /* Default spacing around the image */
+        --blur: 10px; /* Default blur effect on the image */
+      }
+
+      /* Apply the CSS variables to style the image dynamically */
+      img {
+        padding: var(--spacing); /* Use the 'spacing' variable for padding */
+        background: var(
+          --base
+        ); /* Use the 'base' variable for the background color */
+        filter: blur(
+          var(--blur)
+        ); /* Use the 'blur' variable for the blur effect */
+      }
+      /* Style the highlighted text with the base color */
+      .hl {
+        color: var(--base);
+      }
+
+      /* General page styling */
+      body {
+        text-align: center; /* Center all content */
+        background: #193549; /* Dark background for contrast */
+        color: white; /* Light text for readability */
+        font-family: "helvetica neue", sans-serif;
+        font-weight: 100;
+        font-size: 50px;
+      }
+
+      .controls {
+        margin-bottom: 50px; /* Add space below the controls */
+      }
+
+      input {
+        width: 100px; /* Set a fixed width for input elements */
+      }
+    </style>
+    <script>
+      // Select all input elements inside the '.controls' container
+      const inputs = document.querySelectorAll(".controls input");
+
+      /**
+       * This function updates the CSS variable whenever an input value changes.
+       */
+      function handleUpdate() {
+        const suffix = this.dataset.sizing || ""; // Get the unit default to an empty string
+        // Update the corresponding CSS variable with the input's current value
+        document.documentElement.style.setProperty(
+          `--${this.name}`,
+          this.value + suffix
+        );
+      }
+
+      // Add 'change' event listeners to all inputs for when their value is changed
+      inputs.forEach((input) => input.addEventListener("change", handleUpdate));
+      // Add 'mousemove' event listeners to update values as the user drags the sliders
+      inputs.forEach((input) =>
+        input.addEventListener("mousemove", handleUpdate)
+      );
+    </script>
+  </body>
+</html>
