@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fav.farm/✅" />
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+    </div>
+    <audio
+      data-key="65"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_clap.wav"
+    ></audio>
+    <audio
+      data-key="83"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_hihat.wav"
+    ></audio>
+    <audio
+      data-key="68"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_kick.wav"
+    ></audio>
+    <audio
+      data-key="70"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_openhat.wav"
+    ></audio>
+    <audio
+      data-key="71"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_boom.wav"
+    ></audio>
+    <audio
+      data-key="72"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_ride.wav"
+    ></audio>
+    <audio
+      data-key="74"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_snare.wav"
+    ></audio>
+    <audio
+      data-key="75"
+      src="sounds'/01 - JavaScript Drum Kit_sounds_tom.wav"
+    ></audio>
+    <style>
+      html {
+        font-size: 10px;
+        background: url(https://www.drumloopai.com/wp-content/uploads/2023/11/57cf6b5dthumbnail.jpeg);
+        background-size: cover;
+      }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .keys {
+        display: flex;
+        flex: 1;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+      }
+      .key {
+        border: 0.4rem solid black;
+        border-radius: 0.5rem;
+        margin: 1rem;
+        font-size: 1.5rem;
+        padding: 1rem 0.5rem;
+        transition: all 0.07s ease;
+        width: 10rem;
+        text-align: center;
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
+        text-shadow: 0 0 0.5rem black;
+        flex-wrap: wrap;
+      }
+      .key:focus {
+        outline: 2px solid #ffc600;
+        outline-offset: 4px;
+      }
+      .playing {
+        transform: scale(1.1);
+        border-color: #ffc600;
+        box-shadow: 0 0 1rem #ffc600;
+      }
+      kbd {
+        display: block;
+        font-size: 4rem;
+      }
+      .sound {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        color: #ffc600;
+      }
+    </style>
+    <script>
+      // Function to play sound and trigger animation
+      function playSound(event) {
+        // Select the <audio> element corresponding to the pressed key
+        const audio = document.querySelector(
+          `audio[data-key="${event.keyCode}"]`
+        );
+        // Select the key <div> element corresponding to the pressed key
+        const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+
+        // If there's no audio element for the pressed key, stop the function
+        if (!audio) return;
+        // Rewind the audio to the start in case it's already playing
+        audio.currentTime = 0;
+        // Play the audio
+        audio.play();
+        // Add the "playing" class to the key to trigger the CSS animation
+        key.classList.add("playing");
+      }
+
+      // Function to remove the "playing" class after the animation ends
+      function removeTransition(event) {
+        // Ensure this function only runs when the "transform" property changes
+        if (event.propertyName !== "transform") return;
+        // Remove the "playing" class from the key
+        this.classList.remove("playing");
+      }
+
+      // Select all key <div> elements
+      const keys = document.querySelectorAll(".key");
+      // Add an event listener to remove the "playing" class after the animation ends
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+
+      // Add an event listener to detect key presses and play the corresponding sound
+      window.addEventListener("keydown", playSound);
+    </script>
+  </body>
+</html>
